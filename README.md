@@ -56,3 +56,41 @@ Finally a Fast Fourier Transform (FFT) was applied to some of these signals prod
 * mean(): Mean value
 * std(): Standard deviation
 
+## Getting and Cleaning the data:
+
+1. Read the activity labels and features into dataframe
+    * activity_labels
+    * features
+2. Read the subjects' data
+    * subject_train
+    * subject_test
+3. Merge the train and test subjects
+    * total_subjects
+4. Read the set data
+    * x_train
+    * x_test
+5. Merge the train and test sets
+    * total_set
+6. Read the movement data
+    * y_train
+    * y_test
+7. Merge the train and test movement data
+    * total_activity
+        
+8. Merges the training and the test sets to create one data set.
+    * my_data <-cbind(total_activity,total_set,total_subjects)
+
+9. Extracts only the measurements on the mean and standard deviation for each measurement.
+    * mean_std <- grep("mean|std", features[,2])
+    * my_result<- subset(total_set, select = mean_std)
+        
+10. Uses descriptive activity names to name the activities in the data set
+    * my_result <-cbind(my_result,total_activity)
+    * my_result <-merge(activity_labels,my_result, by.x="activity_id",by.y="movement")
+        
+11. Appropriately labels the data set with descriptive variable names.
+    * my_result <- cbind(my_result,total_subjects)
+        
+12. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.      
+    * my_result<- my_result %>% group_by(activity_names, subject) %>% summarise_each(funs = (mean))
+
